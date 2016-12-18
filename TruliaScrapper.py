@@ -26,7 +26,7 @@ path = os.path.dirname(os.path.abspath(filename)) + '/'
 
 Houses = []
 page = 1
-CityName = "Los_Angeles"
+CityName = "Garden_Grove"
 keepGoing = True
 lastpageCheck = ""
 
@@ -52,40 +52,40 @@ while(keepGoing):
         print('Working on ' + URL)
         for house in allHouses:
             try:
-                city = house.find_all("div", {"class": "typeTruncate typeLowlight cardFooter man ptn phm pbm"})[0].text
+                city = '"' + house.find_all("div", {"class": "typeTruncate typeLowlight cardFooter man ptn phm pbm"})[0].text +'"'
             except IndexError:
-                city = ""
+                city = '""'
             for item in house.find_all("div", {"class": "cardDetails man ptm phm"}):
                 for x in item.find_all("ul"):
                     try:
                         if "sqft" in str(x.contents[2].text):
-                            size = x.contents[2].text
+                            size = '"' + x.contents[2].text + '"'
                         else:
-                            size = ""
+                            size = '""'
                     except IndexError:
-                        size = ""
+                        size = '""'
                     try:
                         if "bd" in str(x.contents[0].text):
-                            bed = x.contents[0].text
+                            bed = '"' + x.contents[0].text + '"'
                         else:
-                            bed = ""
+                            bed = '""'
                     except IndexError:
-                        bed = ""
+                        bed = '""'
                     try:
                         if "ba" in str(x.contents[1].text):
-                            bath = x.contents[1].text
+                            bath = '"' + x.contents[1].text + '"'
                         else:
-                            bath = ""
+                            bath = '""'
                     except IndexError:
-                        bath = ""
+                        bath = '""'
                 try:
-                    price = item.find_all("span", {"class": "cardPrice h4 man pan typeEmphasize noWrap typeTruncate "})[0].text
+                    price = '"' + item.find_all("span", {"class": "cardPrice h4 man pan typeEmphasize noWrap typeTruncate "})[0].text + '"'
                 except IndexError:
-                    price = ""
+                    price = '""'
                 try:
-                    address = address = item.find_all("p", {"class": "typeTruncate typeLowlight"})[0].text
+                    address = '"' + item.find_all("p", {"class": "typeTruncate typeLowlight"})[0].text + '"'
                 except IndexError:
-                    address = ""
+                    address = '""'
             house = House(price, bed, bath, address, city, size)
             Houses.append(house)
 
@@ -93,7 +93,7 @@ while(keepGoing):
         #     print("Price:" + house.Cost + "|" + "Bed:" + house.Bed + "|" + "Bath:" + house.Bath + "|" + "Address:" + house.Street + "|" + "City:" + house.City + "|" + "Size:" + house.Size + "|")
 
         page += 1
-        time.sleep(1)
+        time.sleep(3)
 
     except IndexError:
             break
